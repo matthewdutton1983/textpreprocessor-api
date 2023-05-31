@@ -6,9 +6,10 @@ from typing import Dict, Any
 from werkzeug.middleware.proxy_fix import ProxyFix
 
 # Import project code
-from textpreprocessor import models, utils
-from textpreprocessor.api_instance import api
-from textpreprocessor.namespaces import encoder_ns, flattener_ns, normalizer_ns, segmenter_ns, transformer_ns, utilities_ns
+from api import models
+from api.api_instance import api
+from api.namespaces import encoder_ns, flattener_ns, normalizer_ns, segmenter_ns, transformer_ns, utilities_ns
+from utils import encoder, flattener, normalizer, segmenter, transformer
 
 app = Flask(__name__)
 app.wsgi_app = ProxyFix(app.wsgi_app)
@@ -18,6 +19,8 @@ api.init_app(app)
 namespaces = [encoder_ns, flattener_ns, normalizer_ns, segmenter_ns, transformer_ns, utilities_ns]
 for namespace in namespaces:
     api.add_namespace(namespace)
+
+utils = [encoder, flattener, normalizer, segmenter, transformer]
 
 # =================================================================================================================================================
 # ENCODER ROUTES
@@ -39,7 +42,7 @@ class EncodeTextResource(Resource):
         if not text:
             return {"error": "No text provided."}, 400
         
-        result = utils.encode_text(text, encoding, errors)
+        result = encoder.encode_text(text, encoding, errors)
         return {"result": result}, 200
 
 # =================================================================================================================================================
@@ -61,7 +64,7 @@ class HandleLineFeedsResource(Resource):
         if not text:
             return {"error": "No text provided."}, 400
         
-        result = utils.handle_line_feeds(text, mode)
+        result = flattener.handle_line_feeds(text, mode)
         return {"result": result}, 200
     
 @flattener_ns.route("/remove_brackets")
@@ -78,7 +81,7 @@ class RemoveBracketsResource(Resource):
         if not text:
             return {"error": "No text provided."}, 400
         
-        result = utils.remove_brackets(text)
+        result = flattener.remove_brackets(text)
         return {"result": result}, 200
     
 @flattener_ns.route("/remove_html_tags")
@@ -95,7 +98,7 @@ class RemoveHtmlTagsResource(Resource):
         if not text:
             return {"error": "No text provided."}, 400
         
-        result = utils.remove_html_tags(text)
+        result = flattener.remove_html_tags(text)
         return {"result": result}, 200
     
 @flattener_ns.route("/remove_list_markers")
@@ -112,7 +115,7 @@ class RemoveListMarkersResource(Resource):
         if not text:
             return {"error": "No text provided."}, 400
         
-        result = utils.remove_list_markers(text)
+        result = flattener.remove_list_markers(text)
         return {"result": result}, 200
     
 @flattener_ns.route("/remove_special_characters")
@@ -131,7 +134,7 @@ class RemoveSpecialCharactersResource(Resource):
         if not text:
             return {"error": "No text provided."}, 400
         
-        result = utils.remove_special_characters(text, remove_unicode, custom_characters)
+        result = flattener.remove_special_characters(text, remove_unicode, custom_characters)
         return {"result": result}, 200
     
 @flattener_ns.route("/remove_stopwords")
@@ -149,7 +152,7 @@ class RemoveStopwordsResource(Resource):
         if not text:
             return {"error": "No text provided."}, 400
         
-        result = utils.remove_stopwords(text, stop_words)
+        result = flattener.remove_stopwords(text, stop_words)
         return {"result": result}, 200
     
 @flattener_ns.route("/remove_whitespace")
@@ -168,7 +171,7 @@ class RemoveWhiteSpaceResource(Resource):
         if not text:
             return {"error": "No text provided."}, 400
         
-        result = utils.remove_whitespace(text, mode, keep_duplicates)
+        result = flattener.remove_whitespace(text, mode, keep_duplicates)
         return {"result": result}, 200
     
 # =================================================================================================================================================
@@ -189,7 +192,7 @@ class ExpandContractionsResource(Resource):
         if not text:
             return {"error": "No text provided."}, 400
         
-        result = utils.expand_contractions(text)
+        result = normalizer.expand_contractions(text)
         return {"result": result}, 200
 
 @normalizer_ns.route("/lemmatize_text")
@@ -206,7 +209,7 @@ class LemmatizeTextResource(Resource):
         if not text:
             return {"error": "No text provided."}, 400
         
-        result = utils.lemmatize_text(text)
+        result = normalizer.lemmatize_text(text)
         return {"result": result}, 200
 
 @normalizer_ns.route("/normalize_unicode")
@@ -223,7 +226,7 @@ class NormalizeUnicodeResource(Resource):
         if not text:
             return {"error": "No text provided."}, 400
         
-        result = utils.normalize_unicode(text)
+        result = normalizer.normalize_unicode(text)
         return {"result": result}, 200
 
 @normalizer_ns.route("/remove_numbers")
@@ -240,7 +243,7 @@ class RemoveNumbersResource(Resource):
         if not text:
             return {"error": "No text provided."}, 400
         
-        result = utils.remove_numbers(text)
+        result = normalizer.remove_numbers(text)
         return {"result": result}, 200
     
 @normalizer_ns.route("/remove_punctuation")
@@ -259,7 +262,7 @@ class RemovePunctutationResource(Resource):
         if not text: 
             return {"error": "No text provided."}, 400
         
-        result = utils.remove_punctuation(text, punctuations, remove_duplicates)
+        result = normalizer.remove_punctuation(text, punctuations, remove_duplicates)
         return {"result": result}, 200
     
 @normalizer_ns.route("/stem_words")
@@ -277,7 +280,7 @@ class StemWordsResource(Resource):
         if not text:
             return {"error": "No text provided."}, 400
         
-        result = utils.stem_text(text, stemmer)
+        result = normalizer.stem_text(text, stemmer)
         return {"result": result}, 200
     
 # =================================================================================================================================================
@@ -301,7 +304,7 @@ class ExtractNgramsResource(Resource):
         if not text:
             return {"error": "No text provided."}, 400
         
-        result = utils.extract_ngrams(text, n, padding, tokens)
+        result = segmenter.extract_ngrams(text, n, padding, tokens)
         return {"result": result}, 200
     
 @segmenter_ns.route("/sentences")
@@ -318,7 +321,7 @@ class TokenizeSentencesResource(Resource):
         if not text:
             return {"error": "No text provided."}, 400
         
-        result = utils.tokenize_sentences(text)
+        result = segmenter.tokenize_sentences(text)
         return {"result": result}, 200
     
 @segmenter_ns.route("/words")
@@ -335,7 +338,7 @@ class TokenizeWordsResource(Resource):
         if not text:
             return {"error": "No text provided."}, 400
         
-        result = utils.tokenize_words(text)
+        result = segmenter.tokenize_words(text)
         return {"result": result}, 200
 
 # =================================================================================================================================================
@@ -357,7 +360,7 @@ class ChangeCaseResource(Resource):
         if not text:
             return {"error": "No text provided."}, 400
         
-        result = utils.change_case(text, case)
+        result = transformer.change_case(text, case)
         return {"result": result}, 200
     
 @transformer_ns.route("/convert_numbers_to_words")
@@ -374,7 +377,7 @@ class ConvertNumbersToWordsResource(Resource):
         if not text:
             return {"error": "No text provided."}, 400
         
-        result = utils.convert_numbers_to_words(text)
+        result = transformer.convert_numbers_to_words(text)
         return {"result": result}, 200
     
 @transformer_ns.route("/convert_words_to_numbers")
@@ -391,7 +394,7 @@ class ConvertWordsToNumbersResource(Resource):
         if not text:
             return {"error": "No text provided."}, 400
         
-        result = utils.convert_words_to_numbers(text)
+        result = transformer.convert_words_to_numbers(text)
         return {"result": result}, 200
     
 @transformer_ns.route("/replace_words")
@@ -410,7 +413,7 @@ class ReplaceWordsResource(Resource):
         if not text:
             return {"error": "No text provided."}, 400
         
-        result = utils.replace_words(text, replacement_dict, case_sensitive)
+        result = transformer.replace_words(text, replacement_dict, case_sensitive)
         return {"result": result}, 200
 
 # =================================================================================================================================================
