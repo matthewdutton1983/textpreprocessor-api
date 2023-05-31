@@ -28,10 +28,11 @@ utils = [encoder, flattener, normalizer, segmenter, transformer]
 
 @encoder_ns.route("/encode_text")
 class EncodeTextResource(Resource):
+    @encoder_ns.doc(description=inspect.getdoc(encoder.encode_text))
     @encoder_ns.expect(models.encode_text_model)
     def post(self):
         """
-        This method encodes given text using a specified encoding.
+        Encodes the input text using a specified encoding.
         """
         data: Dict[str, Any] = api.payload
         
@@ -51,10 +52,11 @@ class EncodeTextResource(Resource):
 
 @flattener_ns.route("/handle_line_feeds")
 class HandleLineFeedsResource(Resource):
+    @flattener_ns.doc(description=inspect.getdoc(flattener.handle_line_feeds))
     @flattener_ns.expect(models.handle_line_feeds_model)
     def post(self):
         """
-        This method handles line feeds in the text based on the selected mode.
+        Handles line feeds in the text based on the selected mode.
         """
         data: Dict[str, Any] = api.payload
         
@@ -69,10 +71,11 @@ class HandleLineFeedsResource(Resource):
     
 @flattener_ns.route("/remove_brackets")
 class RemoveBracketsResource(Resource):
+    @flattener_ns.doc(description=inspect.getdoc(flattener.remove_brackets))
     @flattener_ns.expect(models.remove_brackets_model)
     def post(self):
         """
-        This method removes content inside brackets, braces, and parentheses.
+        Removes content inside brackets, braces, and parentheses.
         """
         data: Dict[str, Any] = api.payload
         
@@ -86,10 +89,11 @@ class RemoveBracketsResource(Resource):
     
 @flattener_ns.route("/remove_html_tags")
 class RemoveHtmlTagsResource(Resource):
+    @flattener_ns.doc(description=inspect.getdoc(flattener.remove_html_tags))
     @flattener_ns.expect(models.remove_html_tags_model)
     def post(self):
         """
-        This method removes HTML tags from the input text.
+        Removes HTML tags from the input text.
         """
         data: Dict[str, Any] = api.payload
         
@@ -103,10 +107,11 @@ class RemoveHtmlTagsResource(Resource):
     
 @flattener_ns.route("/remove_list_markers")
 class RemoveListMarkersResource(Resource):
+    @flattener_ns.doc(description=inspect.getdoc(flattener.remove_list_markers))
     @flattener_ns.expect(models.remove_list_markers_model)
     def post(self):
         """
-        This method removes itemized list markers (numbering and bullets) from given text.
+        Removes itemized list markers (numbering and bullets) from given text.
         """
         data: Dict[str, Any] = api.payload
         
@@ -120,10 +125,11 @@ class RemoveListMarkersResource(Resource):
     
 @flattener_ns.route("/remove_special_characters")
 class RemoveSpecialCharactersResource(Resource):
+    @flattener_ns.doc(description=inspect.getdoc(flattener.remove_special_characters))
     @flattener_ns.expect(models.remove_special_characters_model)
     def post(self):
         """
-        This method removes special characters from the input text.
+        Removes special characters from the input text.
         """
         data: Dict[str, Any] = api.payload
 
@@ -139,10 +145,11 @@ class RemoveSpecialCharactersResource(Resource):
     
 @flattener_ns.route("/remove_stopwords")
 class RemoveStopwordsResource(Resource):
+    @flattener_ns.doc(description=inspect.getdoc(flattener.remove_stopwords))
     @flattener_ns.expect(models.remove_stopwords_model)
     def post(self):
         """
-        This method removes stopwords from the input text.
+        Removes stopwords from the input text.
         """
         data: Dict[str, Any] = api.payload
 
@@ -157,10 +164,11 @@ class RemoveStopwordsResource(Resource):
     
 @flattener_ns.route("/remove_whitespace")
 class RemoveWhiteSpaceResource(Resource):
+    @flattener_ns.doc(description=inspect.getdoc(flattener.remove_whitespace))
     @flattener_ns.expect(models.remove_whitespace_model)
     def post(self):
         """
-        This method removes whitespace from the text based on the selected mode.
+        Removes whitespace from the text based on the selected mode.
         """
         data: Dict[str, Any] = api.payload
 
@@ -180,10 +188,11 @@ class RemoveWhiteSpaceResource(Resource):
     
 @normalizer_ns.route("/expand_contractions")
 class ExpandContractionsResource(Resource):
+    @normalizer_ns.doc(description=inspect.getdoc(normalizer.expand_contractions))
     @normalizer_ns.expect(models.expand_contractions_model)
     def post(self):        
         """
-        This method expands contractions in a given text.
+        Expands contractions in a given text.
         """
         data: Dict[str, Any] = api.payload
         
@@ -197,10 +206,11 @@ class ExpandContractionsResource(Resource):
 
 @normalizer_ns.route("/lemmatize_text")
 class LemmatizeTextResource(Resource):
+    @normalizer_ns.doc(description=inspect.getdoc(normalizer.lemmatize_text))
     @normalizer_ns.expect(models.lemmatize_text_model)
     def post(self):
         """
-        This method uses lemmatization to processes the words in the input text.
+        Lemmatizes the words in the input text.
         """
         data: Dict[str, Any] = api.payload
         
@@ -214,10 +224,11 @@ class LemmatizeTextResource(Resource):
 
 @normalizer_ns.route("/normalize_unicode")
 class NormalizeUnicodeResource(Resource):
+    @normalizer_ns.doc(description=inspect.getdoc(normalizer.normalize_unicode))
     @normalizer_ns.expect(models.normalize_unicode_model)
     def post(self):
         """
-        This method normalizes unicode characters in given text to remove umlauts, accents, etc.
+        Normalizes unicode characters in given text to remove umlauts, accents, etc.
         """
         data: Dict[str, Any] = api.payload
         
@@ -231,10 +242,11 @@ class NormalizeUnicodeResource(Resource):
 
 @normalizer_ns.route("/remove_numbers")
 class RemoveNumbersResource(Resource):
+    @normalizer_ns.doc(description=inspect.getdoc(normalizer.remove_numbers))
     @normalizer_ns.expect(models.remove_numbers_model)
     def post(self):
         """
-        This method removes all digits from the input text.
+        Removes all digits from the input text.
         """
         data: Dict[str, Any] = api.payload
         
@@ -248,10 +260,11 @@ class RemoveNumbersResource(Resource):
     
 @normalizer_ns.route("/remove_punctuation")
 class RemovePunctutationResource(Resource):
+    @normalizer_ns.doc(description=inspect.getdoc(normalizer.remove_punctuation))
     @normalizer_ns.expect(models.remove_punctuation_model)
     def post(self):
         """
-        This method removes punctuations from the text.
+        Removes punctuations from the text.
         """
         data: Dict[str, Any] = api.payload
 
@@ -267,10 +280,11 @@ class RemovePunctutationResource(Resource):
     
 @normalizer_ns.route("/stem_words")
 class StemWordsResource(Resource):
+    @normalizer_ns.doc(description=inspect.getdoc(normalizer.stem_text))
     @normalizer_ns.expect(models.stem_words_model)
     def post(self):
         """
-        This method uses stemming to processes the words in the input text.
+        Stems the words in the input text.
         """
         data: Dict[str, Any] = api.payload
 
@@ -289,10 +303,11 @@ class StemWordsResource(Resource):
 
 @segmenter_ns.route("/ngrams")
 class ExtractNgramsResource(Resource):
+    @segmenter_ns.doc(description=inspect.getdoc(segmenter.extract_ngrams))
     @segmenter_ns.expect(models.extract_ngrams_model)
     def post(self):
         """
-        This method extract n-grams from the text.
+        Extracts n-grams from the text.
         """
         data: Dict[str, Any] = api.payload
         
@@ -309,10 +324,11 @@ class ExtractNgramsResource(Resource):
     
 @segmenter_ns.route("/sentences")
 class TokenizeSentencesResource(Resource):
+    @segmenter_ns.doc(description=inspect.getdoc(segmenter.tokenize_sentences))
     @segmenter_ns.expect(models.tokenize_sentences_model)
     def post(self):
         """
-        This method tokenizes the input text into sentences or words based on the selected mode.
+        Tokenizes the input text into sentences or words based on the selected mode.
         """
         data: Dict[str, Any] = api.payload
 
@@ -326,10 +342,11 @@ class TokenizeSentencesResource(Resource):
     
 @segmenter_ns.route("/words")
 class TokenizeWordsResource(Resource):
+    @segmenter_ns.doc(description=inspect.getdoc(segmenter.tokenize_words))
     @segmenter_ns.expect(models.tokenize_words_model)
     def post(self):
         """
-        This method tokenizes the input text into sentences or words based on the selected mode.
+        Tokenizes the input text into sentences or words based on the selected mode.
         """
         data: Dict[str, Any] = api.payload
 
@@ -347,10 +364,11 @@ class TokenizeWordsResource(Resource):
 
 @transformer_ns.route("/change_case")
 class ChangeCaseResource(Resource):
+    @transformer_ns.doc(description=inspect.getdoc(transformer.change_case))
     @transformer_ns.expect(models.change_case_model)
     def post(self):
         """
-        This method changes the case of the text based on the selected case type.
+        Changes the case of the text based on the selected case type.
         """
         data: Dict[str, Any] = api.payload
         
@@ -365,10 +383,11 @@ class ChangeCaseResource(Resource):
     
 @transformer_ns.route("/convert_numbers_to_words")
 class ConvertNumbersToWordsResource(Resource):
+    @transformer_ns.doc(description=inspect.getdoc(transformer.convert_numbers_to_words))
     @transformer_ns.expect(models.convert_numbers_to_words_model)
     def post(self):
         """
-        This method converts numbers in the text to their corresponding words.
+        Converts numbers in the text to their corresponding words.
         """
         data: Dict[str, Any] = api.payload
         
@@ -382,10 +401,11 @@ class ConvertNumbersToWordsResource(Resource):
     
 @transformer_ns.route("/convert_words_to_numbers")
 class ConvertWordsToNumbersResource(Resource):
+    @transformer_ns.doc(description=inspect.getdoc(transformer.convert_words_to_numbers))
     @transformer_ns.expect(models.convert_words_to_numbers_model)
     def post(self):
         """
-        This method converts number-words in the text to their corresponding numbers.
+        Converts number-words in the text to their corresponding numbers.
         """
         data: Dict[str, Any] = api.payload
         
@@ -399,10 +419,11 @@ class ConvertWordsToNumbersResource(Resource):
     
 @transformer_ns.route("/replace_words")
 class ReplaceWordsResource(Resource):
+    @transformer_ns.doc(description=inspect.getdoc(transformer.replace_words))
     @transformer_ns.expect(models.replace_words_model)
     def post(self):
         """
-        This method replaces specified words in given text according to a replacement dictionary.
+        Replaces specified words in given text according to a replacement dictionary.
         """
         data: Dict[str, Any] = api.payload
 
@@ -424,7 +445,7 @@ class ReplaceWordsResource(Resource):
 class ActuatorResource(Resource):
     def get(self):
         """
-        This method displays a message that confirms that the service is up and running.
+        Displays a message that confirms that the service is up and running.
         """
         return {"message": "Service is running"}, 200
 
@@ -434,7 +455,7 @@ class MethodsResource(Resource):
         """
         This method displays a list of all available methods for processing text.
         """
-        available_methods = [name for name, _ in inspect.getmembers(utils, inspect.isfunction) 
+        available_methods = [name for name, _ in inspect.getmembers(utils, inspect.isfunction) # this is not working
                              if not name.startswith("_")]
 
         if not available_methods:
@@ -447,12 +468,13 @@ class RunPipelineResource(Resource):
     @utilities_ns.expect(models.run_pipeline_model)
     def post (self):
         """
-        This method applies an ordered series of text processing operations to the input text.
+        Applies an ordered series of text processing operations to the input text.
         """
         data: Dict[str, Any] = api.payload
         
         text: str = data.get("text", "")
         operations: list = data.get("operations", [])
+        args: dict = data.get("args", {}) # how do I add args to each operation
 
         if not text:
             return {"error": "No text provided."}, 400
@@ -464,7 +486,6 @@ class RunPipelineResource(Resource):
         for operation in operations:
             if operation not in utils.__dict__:
                 return {"error": f"Invalid operation specified: {operation}"}, 400
-            
             result = utils.__dict__[operation](result)
         
         return {"result": result}, 200
