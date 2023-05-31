@@ -455,8 +455,13 @@ class MethodsResource(Resource):
         """
         This method displays a list of all available methods for processing text.
         """
-        available_methods = [name for name, _ in inspect.getmembers(utils, inspect.isfunction) # this is not working
-                             if not name.startswith("_")]
+        available_methods = []
+
+        for module in utils:
+            available_methods.extend([name for name, _ in inspect.getmembers(module, inspect.isfunction) 
+                                      if not name.startswith("_")])
+        
+        available_methods.sort()
 
         if not available_methods:
             return "", 204
