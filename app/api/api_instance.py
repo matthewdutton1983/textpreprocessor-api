@@ -1,7 +1,7 @@
 from flask_restx import Api
 
 api = Api(
-    version='1.0',
-    title='Text PreProcessor API',
-    description='This API provides a comprehensive, easy-to-use toolkit for processing text data.'
+    version="1.0",
+    title="Content Solutions Text Processing API",
+    description="This API provides a collection of text processing utilities that can be used to encode, flatten, normalize, segment, and transform text. The API is organized into different namespaces, each containing related functions."
 )
