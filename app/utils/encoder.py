@@ -14,6 +14,7 @@ def encode_text(text: str, encoding: str = 'utf-8', errors: str = 'strict') -> b
     ValueError: If an unsupported encoding type or error handling strategy is specified.
     """
     encodings = ['utf-8', 'ascii']
+    
     if encoding not in encodings:
         raise ValueError(
             "Invalid encoding type. Only 'utf-8' and 'ascii' are supported.")
