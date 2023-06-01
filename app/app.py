@@ -9,7 +9,7 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 from api import models
 from api.api_instance import api
 from api.namespaces import encoder_ns, flattener_ns, normalizer_ns, segmenter_ns, transformer_ns, utilities_ns
-from utils import encoder, flattener, normalizer, segmenter, transformer
+from utils import encoder, flattener, normalizer, segmenter, transformer, utilities
 
 app = Flask(__name__)
 app.wsgi_app = ProxyFix(app.wsgi_app)
@@ -19,8 +19,6 @@ api.init_app(app)
 namespaces = [encoder_ns, flattener_ns, normalizer_ns, segmenter_ns, transformer_ns, utilities_ns]
 for namespace in namespaces:
     api.add_namespace(namespace)
-
-utils = [encoder, flattener, normalizer, segmenter, transformer]
 
 # =================================================================================================================================================
 # ENCODER ROUTES
@@ -455,20 +453,14 @@ class MethodsResource(Resource):
         """
         This method displays a list of all available methods for processing text.
         """
-        available_methods = []
-
-        for module in utils:
-            available_methods.extend([name for name, _ in inspect.getmembers(module, inspect.isfunction) 
-                                      if not name.startswith("_")])
-        
-        available_methods.sort()
+        available_methods = utilities.list_available_methods()
 
         if not available_methods:
             return "", 204
         
         return {"available_methods": available_methods}, 200
     
-@utilities_ns.route("/run_pipeline")
+@utilities_ns.route("/pipeline")
 class RunPipelineResource(Resource):
     @utilities_ns.expect(models.run_pipeline_model)
     def post (self):
@@ -479,7 +471,7 @@ class RunPipelineResource(Resource):
         
         text: str = data.get("text", "")
         operations: list = data.get("operations", [])
-        args: dict = data.get("args", {}) # how do I add args to each operation
+        args: dict = data.get("args", {})
 
         if not text:
             return {"error": "No text provided."}, 400
@@ -487,12 +479,11 @@ class RunPipelineResource(Resource):
         if not operations:
             return {"error": "No operations provided."}, 400
         
-        result = text
-        for operation in operations:
-            if operation not in utils.__dict__:
-                return {"error": f"Invalid operation specified: {operation}"}, 400
-            result = utils.__dict__[operation](result)
-        
+        try:
+            result = utilities.run_pipeline(text, operations, args)
+        except Exception as e:
+            return {"error": str(e)}, 500
+    
         return {"result": result}, 200
 
 if __name__ == '__main__':
