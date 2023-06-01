@@ -1,7 +1,7 @@
 # Import third-party libraries
 from flask_restx import fields, Namespace
 
-transformer_ns = Namespace("transformer", description="This namespace contains functions that transform the format or representation of text, such as changing case or converting numbers to words.")
+transformer_ns = Namespace("transformer", description="This service contains functions that transform the format or representation of text, such as changing case or converting numbers to words.")
 
 change_case_model = transformer_ns.model("ChangeCase", {
     "text": fields.String(required=True, description="The input text."), 

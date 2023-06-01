@@ -1,7 +1,7 @@
 # Import third-party libraries
 from flask_restx import fields, Namespace
 
-segmenter_ns = Namespace("segmenter", description="This namespace includes functions that divide text into meaningful segments or units, such as sentences, n-grams or tokens.")
+segmenter_ns = Namespace("segmenter", description="This service includes functions that divide text into meaningful segments or units, such as sentences, n-grams or tokens.")
 
 extract_ngrams_model = segmenter_ns.model("ExtractNgrams", {
     "text": fields.String(required=True, description="The input text."),

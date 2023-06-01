@@ -1,7 +1,7 @@
 # Import third-party libraries
 from flask_restx import fields, Namespace
 
-normalizer_ns = Namespace("normalizer", description="This namespace provides utilities to standardize and normalize text, such as removing punctuation, handling unicode, or lemmatizing words.")
+normalizer_ns = Namespace("normalizer", description="This service provides utilities to standardize and normalize text, such as removing punctuation, handling unicode, or lemmatizing words.")
 
 expand_contractions_model = normalizer_ns.model("ExpandContractions", {
     "text": fields.String(required=True, description="The input text.")

@@ -1,7 +1,7 @@
 # Import third-party libraries
 from flask_restx import fields, Namespace
 
-flattener_ns = Namespace("flattener", description="This namespace contains methods designed to simplify or reduce the complexity of the text, such as removing line breaks, whitespace, or special characters.")
+flattener_ns = Namespace("flattener", description="This service contains methods designed to simplify or reduce the complexity of the text, such as removing line breaks, whitespace, or special characters.")
 
 handle_line_feeds_model = flattener_ns.model("HandleLineFeeds", {
     "text": fields.String(required=True, description="The input text."),
