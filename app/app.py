@@ -4,13 +4,19 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 
 # Import project code
 from api.api_instance import api
-from api.routes import encoder_routes, flattener_routes, normalizer_routes, segmenter_routes, transformer_routes, utilities_routes
+from api.encoder import encoder_routes
+from api.flattener import flattener_routes
+from api.normalizer import normalizer_routes
+from api.segmenter import segmenter_routes
+from api.transformer import transformer_routes
+from api.utilities import utilities_routes
 from log_config import Logger
 
 logger = Logger().get_logger()
 
 app = Flask(__name__)
 app.wsgi_app = ProxyFix(app.wsgi_app)
+
 api.init_app(app)
 
 namespaces = [
