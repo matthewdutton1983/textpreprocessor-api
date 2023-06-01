@@ -2,7 +2,10 @@
 import inspect
 
 # Import project code
+from log_config import Logger
 from utils import encoder, flattener, normalizer, segmenter, transformer
+
+logger = Logger().get_logger()
 
 utils = {
     "encoder": encoder, 
@@ -44,12 +47,17 @@ def run_pipeline(text: str, operations: list, args: dict) -> str:
     - str: The text after all operations have been applied.
     """
     result = text
+    
     for operation in operations:
+        operation_found = False
         for _, module in utils.items():
             if hasattr(module, operation):
                 operation_func = getattr(module, operation)
                 operation_args = args.get(operation, {})
                 result = operation_func(result, **operation_args)
-        else:
-                return {"error": f"Invalid operation specified: {operation}"}, 400
+                operation_found = True
+                break
+        if not operation_found:
+            return {"error": f"Invalid operation specified: {operation}"}, 400
+
     return result
