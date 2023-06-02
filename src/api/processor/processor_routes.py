@@ -28,19 +28,17 @@ class MethodsResource(Resource):
             logger.exception("An error occurred during the encoding process.")
             return {"error": f"An unexpected error occurred: {str(e)}"}, 500
     
-@processor_ns.route("/pipeline")
-class RunPipelineResource(Resource):
-    @processor_ns.expect(run_pipeline_model)
-    def post (self):
+@processor_ns.route("/custom-pipeline")
+class CustomPipelineResource(Resource):
+    @processor_ns.expect(custom_pipeline_model)
+    def post(self):
         """
-        Applies an ordered series of text processing operations to the input text.
+        Applies a custom ordered series of text processing operations to the input text.
         """
         data: Dict[str, Any] = api.payload
         text: str = data.get("text", "")
         operations: list = data.get("operations", [])
         args: dict = data.get("args", {})
-
-        logger.info(f"Received request: Text - {text[:50]}..., Operations - {operations}, Args - {args}")
 
         if not text:
             logger.error("No text provided.")
@@ -51,11 +49,32 @@ class RunPipelineResource(Resource):
             return {"error": "No operations provided."}, 400
         
         try:
-            result = processor_utils.run_pipeline(text, operations, args)
-            logger.info(f"Processing completed. Result - {result[:50]}...")
-
+            result = processor_utils.custom_pipeline(text, operations, args)
         except Exception as e:
             logger.error(f"An error occurred during processing: {str(e)}")
             return {"error": str(e)}, 500    
         
         return {"result": result}, 200
+    
+@processor_ns.route("/default-pipeline")
+class DefaultPipelineResource(Resource):
+    @processor_ns.expect(default_pipeline_model)
+    def post(self):
+        """
+        Applies a preset ordered series of text processing operations to the input text.
+        """
+        data: Dict[str, Any] = api.payload
+        text: str = data.get("text", "")
+
+        if not text:
+            logger.error("No text provided.")
+            return {"error": "No text provided."}, 400
+        
+        try:
+            result = processor_utils.default_pipeline(text)
+        except Exception as e:
+            logger.error(f"An error occurred during processing: {str(e)}")
+            return {"error": str(e)}, 500
+        
+        return {"result": result}, 200
+        

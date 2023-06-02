@@ -1,8 +1,6 @@
-# Text PreProcessor API
+# Text Preprocessor API
 
-This API provides a collection of text processing utilities that can be used to encode, flatten, normalize, segment, and transform text. The API is organized into different namespaces, each containing related functionalities.
-
-## Namespaces
+This API provides a collection of text processing utilities that can be used to encode, flatten, normalize, segment, and transform text. The API is organized into different services, each containing related methods.
 
 - **Encoder:** This namespace provides functions that encode or embed text into different forms.
 
