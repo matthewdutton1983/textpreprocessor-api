@@ -4,4 +4,5 @@ Flask==2.0.2
 nltk==3.6.5
 num2words==0.5.12
 pytest==6.2.3
+structlog==23.1.0
 word2number==1.1
